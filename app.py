@@ -140,14 +140,16 @@ def login():
 def logout():
     """Handle logout of user and redirect to homepage."""
 
-    if not g.csrf_form.validate_on_submit() or not g.user:
-        flash("Unauthorized Access Attempt")
-        return redirect('/')
+    form = g.csrf_form
 
-    else:
-        flash("Logged Out Successfully")
-        do_logout()
-        return redirect("/login")
+    if not form.validate_on_submit() or not g.user:
+        flash("Access unauthorized.", "danger")
+        return redirect("/")
+
+    do_logout()
+
+    flash("You have successfully logged out.", 'success')
+    return redirect("/login")
 
 
 ##############################################################################
