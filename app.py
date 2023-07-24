@@ -127,6 +127,8 @@ def login():
         )
 
         if user:
+            print("/login route user.password", user.password)
+            print("/login route user.username", user.username)
             do_login(user)
             flash(f"Hello, {user.username}!", "success")
             return redirect("/")
