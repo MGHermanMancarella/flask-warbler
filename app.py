@@ -65,6 +65,7 @@ def add_user_to_g():
 def do_login(user):
     """Log in user."""
 
+    print("do_login >>>", session, user.id)
     session[CURR_USER_KEY] = user.id
 
 
