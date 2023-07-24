@@ -23,6 +23,12 @@ app.config['SECRET_KEY'] = os.environ['SECRET_KEY']
 
 connect_db(app)
 
+app.config.update(
+    SESSION_COOKIE_SECURE=True,
+    SESSION_COOKIE_HTTPONLY=True,
+    SESSION_COOKIE_SAMESITE='Lax',
+)
+
 ### login decorator ###
 
 
@@ -65,7 +71,6 @@ def add_user_to_g():
 def do_login(user):
     """Log in user."""
 
-    print("do_login >>>", session, user.id)
     session[CURR_USER_KEY] = user.id
 
 
@@ -127,8 +132,6 @@ def login():
         )
 
         if user:
-            print("/login route user.password", user.password)
-            print("/login route user.username", user.username)
             do_login(user)
             flash(f"Hello, {user.username}!", "success")
             return redirect("/")
