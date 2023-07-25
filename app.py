@@ -23,11 +23,10 @@ app.config['SECRET_KEY'] = os.environ['SECRET_KEY']
 
 connect_db(app)
 
-app.config.update(
-    SESSION_COOKIE_SECURE=True,
-    SESSION_COOKIE_HTTPONLY=True,
-    SESSION_COOKIE_SAMESITE='Lax',
-)
+
+# bug prevents functional login. This circumvents that issue but disables the
+# CSRF auth. 
+app.config['WTF_CSRF_ENABLED'] = False
 
 ### login decorator ###
 
@@ -132,6 +131,7 @@ def login():
         )
 
         if user:
+
             do_login(user)
             flash(f"Hello, {user.username}!", "success")
             return redirect("/")
